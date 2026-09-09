@@ -1,0 +1,10 @@
+{
+    "name": "Moonlight - Echo",
+    "version": "1.0.0",
+    "author": "mattnitzken",
+    "type": "full",
+    "files": {
+        "css": ["style.css"],
+        "js": "code.js"
+    }
+}

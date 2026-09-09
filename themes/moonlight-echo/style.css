@@ -1,0 +1,516 @@
+/* Moonlight Light Theme
+   Echo chat style, adapted from Moonlit Echoes by Rivelle (AGPL-3.0)
+   https://github.com/Rivelle/SillyTavern-MoonlitEchoesTheme
+*/
+
+/* --- Variables --- */
+
+:root {
+    --custom-ChatAvatar: calc(var(--avatar-base-width, 50px) * 0.8);
+    --custom-echo-avatar: calc(var(--custom-ChatAvatar) + 8px);
+    --custom-EchoAvatarWidth: 25%;
+    --custom-EchoAvatarHeight: 400px;
+    --custom-EchoAvatarMobileWidth: 25%;
+    --custom-EchoAvatarMobileHeight: 250px;
+    --custom-RecentChatAvatarYPosition: 25%;
+    --customMesPadding: 1em;
+    --customlastInContext: 1px solid var(--SmartThemeBodyColor, rgba(204, 204, 204, 0.5));
+}
+
+
+/* --- Top Navigation --- */
+
+:root {
+    --topBarBlockSize: calc(var(--topBarIconSize) + var(--topBarBlockPadding) - 1px);
+}
+@media screen and (max-width: 1000px) {
+    :root {
+        --topBarBlockSize: calc(var(--topBarIconSize) + var(--topBarBlockPadding) + 5px) !important;
+    }
+}
+
+#top-bar {
+    height: var(--topBarBlockSize);
+    width: auto;
+    border-radius: 0 !important;
+    box-shadow: 0 1px 15px 0 var(--SmartThemeShadowColor);
+    backdrop-filter: blur(var(--SmartThemeBlurStrength));
+    -webkit-backdrop-filter: blur(var(--SmartThemeBlurStrength));
+    box-sizing: border-box;
+}
+
+#top-settings-holder {
+    display: flex;
+    margin: 0 auto;
+    height: var(--topBarBlockSize);
+    max-height: var(--topBarBlockSize);
+    justify-content: center;
+    z-index: 3005;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 0.8s ease;
+    width: auto;
+    border-bottom: 1.25px solid color-mix(in srgb, var(--SmartThemeBodyColor) 5%, transparent);
+}
+
+.drawer {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-flow: row;
+    width: auto;
+    padding: 0 0.8%;
+    height: var(--topBarBlockSize);
+}
+
+.drawer-icon {
+    position: relative;
+    object-fit: contain;
+    font-size: calc(var(--mainFontSize) * 1.45);
+    z-index: 9000 !important;
+    display: inline-flex;
+    height: 100%;
+}
+
+@media screen and (max-width: 1000px) {
+    .drawer {
+        padding: 0 5px !important;
+    }
+    .drawer-icon {
+        font-size: calc(var(--mainFontSize) * 1.5);
+    }
+    .drawer-icon.fa-fw {
+        width: unset !important;
+    }
+}
+
+
+/* --- Side Panel Layout (Character Selection & Menus) --- */
+
+/* Full-width panels on all screen sizes — makes character browsing much larger */
+.fillLeft,
+.fillRight,
+#left-nav-panel,
+#right-nav-panel {
+    top: calc(var(--topBarBlockSize)) !important;
+    width: 100dvw !important;
+    min-width: 100dvw !important;
+    min-height: calc(100dvh - var(--topBarBlockSize)) !important;
+    height: calc(100dvh - var(--topBarBlockSize)) !important;
+    max-height: calc(100dvh - var(--topBarBlockSize)) !important;
+}
+
+.drawer-content {
+    padding: 1em;
+    overflow-y: scroll;
+    border-radius: 0;
+    background-color: var(--SmartThemeBlurTintColor);
+    box-shadow: none;
+    z-index: 1000 !important;
+    border: 0;
+    border-radius: 0 !important;
+    border-top: 1px solid color-mix(in srgb, var(--SmartThemeBodyColor) 25%, transparent) !important;
+    box-sizing: border-box;
+}
+
+#left-nav-panel,
+#right-nav-panel {
+    border: 0;
+    border-radius: 0 !important;
+    border-top: 1px solid color-mix(in srgb, var(--SmartThemeBodyColor) 25%, transparent) !important;
+    box-sizing: border-box;
+}
+
+#right-nav-panel {
+    background-color: var(--SmartThemeBlurTintColor);
+    padding: 1em;
+    position: absolute;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .drawer-content {
+        top: calc(var(--topBarBlockSize));
+        margin-top: 0;
+        padding: 15px;
+        min-width: 100dvw;
+    }
+}
+
+
+/* --- Chat Style: Echo --- */
+
+body.echostyle #chat {
+    .mes {
+        display: block;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        color: var(--SmartThemeBodyColor);
+        position: relative;
+        padding: 0;
+        margin-top: 5px;
+        margin-bottom: 0;
+        border-radius: 15px;
+
+        &::before {
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .mes_block {
+            display: block;
+            padding: 0;
+            overflow: visible;
+            position: relative;
+            transform: translateY(
+                calc(var(--custom-ChatAvatar) * (-1 + 0.325))
+            ) !important;
+            background-color: unset !important;
+            box-shadow: none !important;
+        }
+
+        .mes_text {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            max-width: 100%;
+            min-height: 200px;
+            overflow: hidden;
+            margin-top: calc(var(--custom-ChatAvatar) * 0.35);
+            border-radius: 10px;
+            backdrop-filter: blur(calc(var(--SmartThemeBlurStrength)));
+            -webkit-backdrop-filter: blur(calc(var(--SmartThemeBlurStrength)));
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 3%);
+        }
+
+        .mes_timer,
+        .mesIDDisplay,
+        .tokenCounterDisplay {
+            display: inline-block;
+            transform: translateY(calc(var(--custom-ChatAvatar) * -0.35));
+        }
+
+        /* Echo: User Message */
+        &[is_user="true"] {
+            .mes_text {
+                float: right;
+                clear: both;
+                position: relative;
+                right: 0;
+                left: auto;
+                border-radius: 10px;
+                overflow: hidden;
+                background-color: var(--SmartThemeUserMesBlurTintColor);
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: var(--custom-EchoAvatarWidth, 25%);
+                    height: var(--custom-EchoAvatarHeight, 300px);
+                    background: var(--mes-avatar-original-url, var(--mes-avatar-url)) center no-repeat;
+                    background-size: cover;
+                    background-attachment: fixed;
+                    -webkit-mask-image:
+                        linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+                        linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 30%),
+                        linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+                        linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,1) 40%);
+                    mask-image:
+                        linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+                        linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 30%),
+                        linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+                        linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,1) 40%);
+                    -webkit-mask-composite: destination-in;
+                    mask-composite: intersect;
+                    border-radius: 10px 0 0 10px;
+                    z-index: 3;
+
+                    @media screen and (max-width: 1000px) {
+                        width: var(--custom-EchoAvatarMobileWidth, 25%);
+                        height: var(--custom-EchoAvatarMobileHeight, 250px);
+                    }
+                }
+            }
+
+            .mes_text,
+            .last_mes .mes_text {
+                padding: 10px 20px 10px var(--custom-EchoAvatarWidth, 25%) !important;
+                background-color: var(--SmartThemeUserMesBlurTintColor);
+
+                @media screen and (max-width: 1000px) {
+                    padding: 10px 20px 10px var(--custom-EchoAvatarMobileWidth, 25%) !important;
+                }
+            }
+        }
+
+        /* Echo: Character Message */
+        &[is_user="false"] {
+            .mes_text {
+                background-color: var(--SmartThemeBotMesBlurTintColor);
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: var(--custom-EchoAvatarWidth, 25%);
+                    height: var(--custom-EchoAvatarHeight, 300px);
+                    background: var(--mes-avatar-original-url, var(--mes-avatar-url)) center no-repeat;
+                    background-size: cover;
+                    background-attachment: fixed;
+                    -webkit-mask-image:
+                        linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+                        linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 30%),
+                        linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+                        linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,1) 40%);
+                    mask-image:
+                        linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+                        linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 30%),
+                        linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+                        linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,1) 40%);
+                    -webkit-mask-composite: destination-in;
+                    mask-composite: intersect;
+                    border-radius: 0 10px 10px 0;
+                    z-index: 3;
+
+                    @media screen and (max-width: 1000px) {
+                        width: var(--custom-EchoAvatarMobileWidth, 25%);
+                        height: var(--custom-EchoAvatarMobileHeight, 250px);
+                    }
+                }
+            }
+            .mes_text,
+            .last_mes .mes_text {
+                padding: 10px var(--custom-EchoAvatarWidth, 25%) 10px 20px !important;
+
+                @media screen and (max-width: 1000px) {
+                    padding: 10px var(--custom-EchoAvatarMobileWidth, 25%) 10px 20px !important;
+                }
+            }
+        }
+    }
+
+    .mesAvatarWrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        min-height: 45px;
+        padding-top: 5px;
+    }
+    .mesIDDisplay {
+        padding: 0 8px;
+        opacity: 0.8;
+    }
+    .timestamp {
+        font-size: calc(var(--mainFontSize) * 0.7);
+        font-weight: 400;
+        white-space: nowrap;
+        margin-right: 5px;
+    }
+
+    .mes_reasoning_summary {
+        left: calc(var(--custom-echo-avatar) + 5px + 8px);
+    }
+    .mes_reasoning_header > .icon-svg {
+        display: block;
+        opacity: 0.8 !important;
+        margin-right: 3px;
+    }
+
+    .last_mes {
+        .mes_text {
+            margin-bottom: 10px;
+        }
+        .mesAvatarWrapper {
+            padding-bottom: unset;
+        }
+        .swipe_right,
+        .swipe_left {
+            opacity: 0.6;
+            transform: scale(0.8);
+        }
+        .swipe_left,
+        .swipeRightBlock {
+            bottom: 10px !important;
+        }
+        .swipeRightBlock {
+            position: absolute;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            right: 0px;
+        }
+        .swipes-counter {
+            width: 60px;
+            text-align: center;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            opacity: 0.9 !important;
+            letter-spacing: 1.5px;
+        }
+    }
+
+    .lastInContext {
+        border-top: var(--customlastInContext) !important;
+        opacity: 1 !important;
+        border-radius: 0;
+    }
+}
+
+
+/* --- Echo: Auxiliary Fixes --- */
+
+body.echostyle {
+    #chat .mes_text {
+        border: 1px solid color-mix(in srgb, var(--SmartThemeBodyColor) 10%, transparent);
+    }
+    #chat .mes[is_system="true"] .mes_text {
+        min-height: unset;
+    }
+}
+
+body.echostyle.swipeAllMessages .mes:not(.last_mes) .swipes-counter {
+    margin-right: 0 !important;
+    margin-bottom: 10px !important;
+}
+
+body.echostyle {
+    .mes_reasoning_summary {
+        margin-top: 15px !important;
+    }
+    #chat .lastInContext .mes_block {
+        transform: translateY(calc(var(--custom-ChatAvatar) * (-1 + 0.17))) !important;
+    }
+    #chat .mes[mesid="0"] {
+        margin-top: 10px !important;
+    }
+    #chat .ch_name {
+        margin-top: 3px;
+        margin-left: calc(var(--custom-echo-avatar) + 8px);
+
+        @media screen and (max-width: 1000px) {
+            margin-left: calc(var(--custom-echo-avatar) + 11px);
+        }
+    }
+    #chat .swipe_left {
+        right: calc(var(--customMesPadding) + 85px) !important;
+    }
+}
+
+body.hideChatAvatars.echostyle #chat .ch_name {
+    margin-left: 10px;
+}
+
+body.big-avatars.echostyle #chat {
+    .ch_name {
+        margin-top: -22px !important;
+    }
+    .mes[is_user="false"] .ch_name {
+        padding-left: 8px;
+    }
+    .mes[is_user="true"] .ch_name {
+        padding-right: 5px;
+    }
+    .mesAvatarWrapper {
+        margin-bottom: 20px;
+    }
+    .mes_text {
+        margin-bottom: 15px !important;
+    }
+}
+
+body.big-avatars.echostyle.hideChatAvatars #chat .ch_name {
+    margin-top: -15px !important;
+}
+
+
+/* --- Character Selector Thumbnails --- */
+
+#rm_print_characters_block .character_select .avatar,
+#rm_print_characters_block .bogus_folder_select .avatar,
+#rm_print_characters_block .group_select .avatar {
+    width: calc(var(--avatar-base-width) * 2);
+    height: calc(var(--avatar-base-width) * 3);
+    flex: unset;
+}
+
+#rm_print_characters_block .character_select .avatar img,
+#rm_print_characters_block .bogus_folder_select .avatar img,
+#rm_print_characters_block .group_select .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* --- Visual Novel Mode --- */
+
+:root {
+    --VN-sheld-height: 50dvh;
+}
+
+body.waifuMode {
+    #sheld {
+        height: var(--VN-sheld-height);
+        top: calc(100% - var(--VN-sheld-height));
+        border-radius: 20px 20px 0 0;
+        padding-top: 0 !important;
+        bottom: 0;
+
+        @media screen and (max-width: 1000px) {
+            border-radius: 0;
+        }
+    }
+
+    .zoomed_avatar_container {
+        bottom: 0 !important;
+    }
+}
+
+
+/* --- Hide Default Welcome Messages --- */
+
+.mes[type="assistant_message"],
+.mes[type="welcome_prompt"] {
+    display: none !important;
+}
+
+
+/* --- Recent Chats Avatar Shadow --- */
+
+.recentChat {
+    position: relative;
+    overflow: hidden;
+}
+
+.recentChat::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: var(--chat-avatar-url) right var(--custom-RecentChatAvatarYPosition, 25%) no-repeat;
+    background-size: cover;
+    -webkit-mask-image:
+        linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+        linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 30%),
+        linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+        linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,1) 40%);
+    mask-image:
+        linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+        linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 30%),
+        linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 0%),
+        linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,1) 40%);
+    -webkit-mask-composite: destination-in;
+    mask-composite: intersect;
+    border-radius: 0 10px 10px 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.7;
+}
